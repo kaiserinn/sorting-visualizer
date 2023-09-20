@@ -68,23 +68,24 @@ export const shellSort = async (
   updateDisplay: (time: number, newArr: JSX.Element[]) => Promise<void>,
   time: number
 ) => {
-  const arr = items;
+  const arrayToSort = items;
 
-  const n = arr.length;
+  const n = arrayToSort.length;
   let gap = Math.floor(n / 2);
 
   while (gap > 0) {
     for (let i = gap; i < n; i++) {
-      const temp = arr[i];
+      const currentElement = arrayToSort[i];
       let j = i;
 
-      while (j >= gap && arr[j - gap].props.height > temp.props.height) {
-        arr[j] = arr[j - gap];
+      while (j >= gap && arrayToSort[j - gap].props.height > currentElement.props.height) {
+        arrayToSort[j] = arrayToSort[j - gap];
         j -= gap;
+        await updateDisplay(time, arrayToSort);
       }
 
-      arr[j] = temp;
-      await updateDisplay(time, arr);
+      arrayToSort[j] = currentElement;
+      await updateDisplay(time, arrayToSort);
     }
 
     gap = Math.floor(gap / 2);
